@@ -15,35 +15,62 @@
 using namespace std;
 
 
-int howManyAgentsToAdd(int noOfCurrentAgents, vector < vector<int> > callsTimes) {
-	int n = callsTimes.size();
+void stockpurchase() {
 
-	for (int i = 0; i < n; i++) {
+	long int n, q, x, a, sep = 1, sepnum = 0, start;
+	cin >> n;
+	vector <long int> A(n);
 
-	}
+	long int tmplength = (n / 10) + 1, tmpmin = LONG_MAX;
+	vector<long int> minA;
 
-}
-
-vector <int> sort_hotels(string keywords, vector <int> hotel_ids, vector <string> reviews) {
-	vector<int> outvec;
-	string word;
-	int n = hotel_ids.size();
-	vector<int> ratings(n);
-
-	for (int i = 0; i < n; i++) {
-		stringstream ss(reviews[i]);
-		while (ss >> word) {
-			transform(word.begin(), word.end(), word.begin(), ::tolower);
-			cout << word << " ";
+	for (int i = 0; i<n; i++) {
+		cin >> a;
+		A[i] = a;
+		if (a < tmpmin) {
+			tmpmin = a;
+		}
+		if (sep >= tmplength) {
+			minA.push_back(tmpmin);
+			tmpmin = LONG_MAX;
+			sepnum++;
+			sep = 1;
+		}
+		else {
+			sep++;
 		}
 	}
-
-	return outvec;
+	if (tmpmin < LONG_MAX) {
+		minA.push_back(tmpmin);
+		sepnum++;
+	}
+	cin >> q;
+	for (int i = 0; i<q; i++) {
+		cin >> x;
+		long int m = -1;
+		for (int j = sepnum - 1; j>-1; j--) {
+			if (x >= minA[j]) {
+				m = j;
+				break;
+			}
+		}
+		if (m == -1) {
+			cout << -1 << endl;
+			continue;
+		}
+		start = (m + 1)*tmplength - 1<n - 1 ? (m + 1)*tmplength - 1 : n - 1;
+		for (int j = start; j>-1; j--) {
+			if (A[j] <= x) {
+				cout << j + 1 << endl;
+				break;
+			}
+		}
+	}
 }
 
 
 
 int main() {
-	cout << "hello world" << endl;
+	stockpurchase();
 	return 0;
 }
